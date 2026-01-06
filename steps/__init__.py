@@ -1,3 +1,3 @@
-from . import etl
+from . import etl, feature_engineering
 
-__all__ = ["etl"]
+__all__ = ["etl", "feature_engineering"]

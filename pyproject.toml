@@ -16,6 +16,9 @@ dependencies = [
     "chromedriver-autoinstaller>=0.6.4",
     "beautifulsoup4>=4.14.3",
     "html2text>=2025.4.15",
+    # Feature engineering
+    "qdrant-client>=1.16.2",
+    "sentence-transformers>=5.2.0",
     # RAG
     "langchain-community>=0.4.1",
 ]
@@ -28,6 +31,7 @@ run-digital-data-etl = [
     "run-digital-data-etl-maxime",
     "run-digital-data-etl-paul",
 ]
+run-feature-engineering-pipeline = "python -m tools.run --no-cache --run-feature-engineering"
 
 # Utility pipelines
 run-export-data-warehouse-to-json = "python -m tools.data_warehouse --export-raw-data"
