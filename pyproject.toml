@@ -11,16 +11,20 @@ dependencies = [
     "zenml[server]>=0.93.0",
     "pymongo>=4.15.5",
     "click>=8.1.3",
+    "datasets>=4.8.4",
+    "pydantic-settings==2.2.1",
     # Digital data ETL
     "selenium>=4.39.0",
     "chromedriver-autoinstaller>=0.6.4",
     "beautifulsoup4>=4.14.3",
     "html2text>=2025.4.15",
     # Feature engineering
-    "qdrant-client>=1.16.2",
+    "qdrant-client==1.11.0",
     "sentence-transformers>=5.2.0",
+    "langchain==0.2.14",
     # RAG
-    "langchain-community>=0.4.1",
+    "langchain-community==0.2.12",
+    "langchain-google-genai>=1.0.10",
 ]
 
 [tool.poe.tasks]
@@ -32,6 +36,8 @@ run-digital-data-etl = [
     "run-digital-data-etl-paul",
 ]
 run-feature-engineering-pipeline = "python -m tools.run --no-cache --run-feature-engineering"
+run-generate-instruct-datasets-pipeline = "python -m tools.run --no-cache --run-generate-instruct-datasets"
+run-generate-preference-datasets-pipeline = "python -m tools.run --no-cache --run-generate-preference-datasets"
 
 # Utility pipelines
 run-export-data-warehouse-to-json = "python -m tools.data_warehouse --export-raw-data"
