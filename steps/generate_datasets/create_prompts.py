@@ -1,3 +1,4 @@
+from loguru import logger
 from typing_extensions import Annotated
 from zenml import get_step_context, step
 
@@ -14,6 +15,9 @@ def create_prompts(
 ) -> Annotated[dict[DataCategory, list[GenerateDatasetSamplesPrompt]], "prompts"]:
     dataset_generator = generation.get_dataset_generator(dataset_type)
     grouped_prompts = dataset_generator.get_prompts(documents)
+
+    for key, value in grouped_prompts.items():
+        logger.info(f"Created {len(value)} prompts for category: {key.value}")
 
     step_context = get_step_context()
     step_context.add_output_metadata(output_name="prompts", metadata=_get_metadata(grouped_prompts))

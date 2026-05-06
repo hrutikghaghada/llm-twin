@@ -121,16 +121,17 @@ Provide your response in JSON format.
         datasets = {}
         for category, category_prompts in prompts.items():
             langchain_category_prompts = [_to_langchain(prompt) for prompt in category_prompts]
-            batches = utils.misc.batch(langchain_category_prompts, size=15)
+            batches = utils.misc.batch(langchain_category_prompts, size=10)
 
             flattened_dataset_samples = []
             flag = False
-            for batch in batches:
+            for i, batch in enumerate(batches):
                 try:
-                    if flag:
+                    if flag and not mock:
                         time.sleep(75)
                     flag = True
 
+                    logger.info(f"Batch number: {i}   Batch size: {len(batch)}")
                     batched_dataset_samples = chain.batch(batch, stop=None)
 
                     for dataset_sample_batch in batched_dataset_samples:

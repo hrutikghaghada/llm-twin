@@ -21,6 +21,8 @@ def query_feature_store() -> Annotated[list, "queried_cleaned_documents"]:
 
     cleaned_documents = [doc for query_result in results.values() for doc in query_result]
 
+    logger.info(f"Fetched {len(cleaned_documents)} cleaned documents.")
+
     return cleaned_documents
 
 
@@ -56,7 +58,7 @@ def __fetch_repositories() -> list[CleanedDocument]:
     return __fetch(CleanedRepositoryDocument)
 
 
-def __fetch(cleaned_document_type: type[CleanedDocument], limit: int = 1) -> list[CleanedDocument]:
+def __fetch(cleaned_document_type: type[CleanedDocument], limit: int = 10) -> list[CleanedDocument]:
     try:
         cleaned_documents, next_offset = cleaned_document_type.bulk_find(limit=limit)
     except exceptions.UnexpectedResponse:
