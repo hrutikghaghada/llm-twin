@@ -8,8 +8,15 @@ class Settings(BaseSettings):
     GEMINI_MODEL_ID: str = "gemini-3.1-flash-lite-preview"
     GEMINI_API_KEY: str | None = None
 
+    # OpenAI API
+    OPENAI_API_KEY: str | None = None
+
     # Huggingface API
     HUGGINGFACE_ACCESS_TOKEN: str | None = None
+
+    # Comet ML (during training)
+    COMET_API_KEY: str | None = None
+    COMET_PROJECT: str = "twin"
 
     # MongoDB database
     DATABASE_HOST: str = "mongodb://llm_twin:llm_twin@127.0.0.1:27017"
@@ -26,6 +33,12 @@ class Settings(BaseSettings):
     TEXT_EMBEDDING_MODEL_ID: str = "sentence-transformers/all-MiniLM-L6-v2"
     RERANKING_CROSS_ENCODER_MODEL_ID: str = "cross-encoder/ms-marco-MiniLM-L-4-v2"
     RAG_MODEL_DEVICE: str = "cpu"
+
+    # AWS Authentication
+    AWS_REGION: str = "ap-south-1"
+    AWS_ACCESS_KEY: str | None = None
+    AWS_SECRET_KEY: str | None = None
+    AWS_ARN_ROLE: str | None = None
 
     @property
     def GEMINI_MAX_TOKEN_WINDOW(self) -> int:

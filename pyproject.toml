@@ -27,6 +27,16 @@ dependencies = [
     "langchain-google-genai>=1.0.10",
 ]
 
+[dependency-groups]
+aws = [
+    "sagemaker==2.232.2",
+    "sagemaker-huggingface-inference-toolkit==2.4.0",
+]
+
+# ----------------------------------
+# --- Poe the Poet Configuration ---
+# ----------------------------------
+
 [tool.poe.tasks]
 # Data pipelines
 run-digital-data-etl-maxime = "python -m tools.run --run-etl --no-cache --etl-config-filename digital_data_etl_maxime_labonne.yaml"
@@ -43,3 +53,7 @@ run-end-to-end-data-pipeline = "python -m tools.run --no-cache --run-end-to-end-
 # Utility pipelines
 run-export-data-warehouse-to-json = "python -m tools.data_warehouse --export-raw-data"
 run-import-data-warehouse-from-json = "python -m tools.data_warehouse --import-raw-data"
+
+# Training pipelines
+run-training-pipeline = "python -m tools.run --no-cache --run-training"
+run-evaluation-pipeline = "python -m tools.run --no-cache --run-evaluation"

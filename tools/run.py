@@ -3,7 +3,7 @@ from pathlib import Path
 
 import click
 
-from pipelines import digital_data_etl, end_to_end_data, feature_engineering, generate_datasets
+from pipelines import digital_data_etl, end_to_end_data, evaluating, feature_engineering, generate_datasets, training
 
 
 @click.command(
@@ -76,6 +76,18 @@ Examples:
     default=False,
     help="Whether to run the preference dataset generation pipeline.",
 )
+@click.option(
+    "--run-training",
+    is_flag=True,
+    default=False,
+    help="Whether to run the training pipeline.",
+)
+@click.option(
+    "--run-evaluation",
+    is_flag=True,
+    default=False,
+    help="Whether to run the evaluation pipeline.",
+)
 def main(
     no_cache: bool = False,
     run_end_to_end_data: bool = False,
@@ -84,6 +96,8 @@ def main(
     run_feature_engineering: bool = False,
     run_generate_instruct_datasets: bool = False,
     run_generate_preference_datasets: bool = False,
+    run_training: bool = False,
+    run_evaluation: bool = False,
 ) -> None:
     assert (
         run_etl
@@ -91,6 +105,8 @@ def main(
         or run_generate_instruct_datasets
         or run_generate_preference_datasets
         or run_end_to_end_data
+        or run_training
+        or run_evaluation
     ), "Please specify an action to run."
 
     pipeline_args = {
@@ -129,6 +145,18 @@ def main(
         pipeline_args["config_path"] = root_dir / "configs" / "generate_preference_datasets.yaml"
         pipeline_args["run_name"] = f"generate_preference_datasets_run_{dt.now().strftime('%Y_%m_%d_%H_%M_%S')}"
         generate_datasets.with_options(**pipeline_args)(**run_args_cd)
+
+    if run_training:
+        run_args_cd = {}
+        pipeline_args["config_path"] = root_dir / "configs" / "training.yaml"
+        pipeline_args["run_name"] = f"training_run_{dt.now().strftime('%Y_%m_%d_%H_%M_%S')}"
+        training.with_options(**pipeline_args)(**run_args_cd)
+
+    if run_evaluation:
+        run_args_cd = {}
+        pipeline_args["config_path"] = root_dir / "configs" / "evaluating.yaml"
+        pipeline_args["run_name"] = f"evaluation_run_{dt.now().strftime('%Y_%m_%d_%H_%M_%S')}"
+        evaluating.with_options(**pipeline_args)(**run_args_cd)
 
 
 if __name__ == "__main__":
